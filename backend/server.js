@@ -29,8 +29,14 @@ const userSchema = new mongoose.Schema({
   email: String,
 },{ collection: 'userdetails' });
 
+const pieSchema = new mongoose.Schema({
+  Name: String,
+  Value: Number,
+},{ collection:'Pie343532' })
+
 // Define what collection to use here 
 const UserModel = mongoose.model('userdetails', userSchema); // Model for 'userdetails' collection
+const pieModel = mongoose.model('Pie343532',pieSchema);
 
 app.use(bodyParser.json());
 app.use(cors());
@@ -108,6 +114,29 @@ app.post('/delete/:id', async (req, res) => {
   } catch (error) {
     console.error('Error deleting user:', error);
     res.status(500).json({ message: 'Error deleting user' });
+  }
+});
+
+// Read Pie Data Function
+app.get('/pie',async(req,res)=> {
+  try {
+      // Fetch Data From Collection
+      const data = await pieModel.find();
+      res.json(data);
+  } catch (error) {
+      console.error('Error fetching data:', error); // Log error for debugging
+      res.status(500).json({message: 'Failed to fetch data'});
+  }
+});
+
+app.get('/bar',async(req,res) => {
+  try{
+    // Fetch Data From Collection
+    const data = await pieModel.find();
+    res.json(data);
+    } catch (error) {
+    console.error('Error fetching data:', error); // Log error for debugging
+    res.status(500).json({message: 'Failed to fetch data'})
   }
 });
 

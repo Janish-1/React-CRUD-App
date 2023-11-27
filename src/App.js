@@ -3,6 +3,8 @@ import CreateForm from './components/create';
 import ReadForm from './components/read';
 import UpdateUserForm from './components/update';
 import DeleteUser from './components/delete';
+import PieChart from './components/pie34';
+import GraphComponent from './components/graph';
 
 function App() {
   const [crudAction, setCRUDAction] = useState(''); // State to track CRUD actions
@@ -53,6 +55,18 @@ function App() {
         <div>
           <h2>Delete Form Element</h2>
           <DeleteUser />
+        </div>
+      )}
+      {/* Render the form component based on CRUD action */}
+      {crudAction === 'PieChart' && (
+        <div>
+          <PieChart />
+        </div>
+      )}
+      {crudAction === 'graph' && (
+        <div>
+          <h2>Graph</h2>
+          <GraphComponent />
         </div>
       )}
     </div>
