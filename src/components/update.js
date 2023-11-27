@@ -1,47 +1,82 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-function Update() {
+const UpdateUserForm = () => {
+  const [userId, setUserId] = useState('');
   const [formData, setFormData] = useState({
-    id: '',
     firstName: '',
     lastName: '',
     email: '',
   });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prevData => ({
-      ...prevData,
-      [name]: value
-    }));
+  const handleUserIdChange = (event) => {
+    setUserId(event.target.value);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.put(`http://localhost:3001/update/${formData.id}`, {
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        email: formData.email,
-      });
+  const handleInputChange = (event) => {
+    setFormData({
+      ...formData,
+      [event.target.name]: event.target.value,
+    });
+  };
 
-      console.log('Updated:', response.data);
-      // Handle success or navigation to another page
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      const response = await axios.put(`http://localhost:3001/update/${userId}`, formData);
+      console.log(response.data);
+      alert(response.data.message); // Display the response message
     } catch (error) {
-      console.error('Error updating:', error);
+      console.error('Error:', error);
+      alert('Error updating user data'); // Display error message
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input type="text" name="id" placeholder="User ID" onChange={handleChange} />
-      <input type="text" name="firstName" placeholder="First Name" onChange={handleChange} />
-      <input type="text" name="lastName" placeholder="Last Name" onChange={handleChange} />
-      <input type="text" name="email" placeholder="Email" onChange={handleChange} />
-      <button type="submit">Update</button>
-    </form>
-  );
-}
+    <div>
+      <h2>Update User</h2>
+      <form onSubmit={handleSubmit}>
+        <label htmlFor="userId">User ID:</label>
+        <input
+          type="text"
+          id="userId"
+          name="userId"
+          value={userId}
+          onChange={handleUserIdChange}
+        /><br /><br />
 
-export default Update;
+        <label htmlFor="firstName">First Name:</label>
+        <input
+          type="text"
+          id="firstName"
+          name="firstName"
+          value={formData.firstName}
+          onChange={handleInputChange}
+        /><br /><br />
+
+        <label htmlFor="lastName">Last Name:</label>
+        <input
+          type="text"
+          id="lastName"
+          name="lastName"
+          value={formData.lastName}
+          onChange={handleInputChange}
+        /><br /><br />
+
+        <label htmlFor="email">Email:</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          value={formData.email}
+          onChange={handleInputChange}
+        /><br /><br />
+
+        <button type="submit">Update User</button>
+      </form>
+    </div>
+  );
+};
+
+export default UpdateUserForm;

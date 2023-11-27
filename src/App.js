@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import CreateForm from './components/create';
 import ReadForm from './components/read';
-import Update from './components/update';
+import UpdateUserForm from './components/update';
 import DeleteUser from './components/delete';
 
 function App() {
@@ -41,7 +41,7 @@ function App() {
       {crudAction === 'update' && (
         <div>
           <h2>Update Form Element</h2>
-          <Update />
+          <UpdateUserForm />
         </div>
       )}
       {/* Render the form component based on CRUD action */}
