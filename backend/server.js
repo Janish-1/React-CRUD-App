@@ -2,11 +2,12 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cors = require('cors');
+require('dotenv').config(); // Load environment variables from .env file
 
 const app = express();
 const PORT = 3001;
 
-const uri = 'mongodb+srv://janish:janish@cluster0.j3lhqgn.mongodb.net/?retryWrites=true&w=majority';
+const uri = process.env.MONGODB_URI;
 
 mongoose.connect(uri, {
   useNewUrlParser: true,

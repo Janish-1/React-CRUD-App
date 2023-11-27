@@ -16,12 +16,16 @@ function App() {
 
   return (
     <div>
-      <h1>CRUD Operations</h1>
+      <h1>Code Snippets to Interact with Database</h1>
       <div>
         <button onClick={() => handleCRUDAction('create')}>Create</button>
         <button onClick={() => handleCRUDAction('read')}>Read</button>
         <button onClick={() => handleCRUDAction('update')}>Update</button>
         <button onClick={() => handleCRUDAction('delete')}>Delete</button>
+        <button onClick={() => handleCRUDAction('graph')}>Graph</button>
+        <button onClick={() => handleCRUDAction('PieChart')}>PieChart</button>
+        <button onClick={() => handleCRUDAction('login')}>Login</button>
+        <button onClick={() => handleCRUDAction('register')}>Register</button>
       </div>
       {/* Render the form component based on CRUD action */}
       {crudAction === 'create' && (
