@@ -1,23 +1,56 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import CreateForm from './components/create';
+import ReadForm from './components/read';
+import Update from './components/update';
+import DeleteUser from './components/delete';
 
 function App() {
+  const [crudAction, setCRUDAction] = useState(''); // State to track CRUD actions
+
+  // Function to handle CRUD actions
+  const handleCRUDAction = (action) => {
+    setCRUDAction(action);
+    // Perform actions like fetching data, updating state, etc., based on the action
+    // For example, if action === 'create', you can render the form to create a new entry
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>CRUD Operations</h1>
+      <div>
+        <button onClick={() => handleCRUDAction('create')}>Create</button>
+        <button onClick={() => handleCRUDAction('read')}>Read</button>
+        <button onClick={() => handleCRUDAction('update')}>Update</button>
+        <button onClick={() => handleCRUDAction('delete')}>Delete</button>
+      </div>
+      {/* Render the form component based on CRUD action */}
+      {crudAction === 'create' && (
+        <div>
+          <h2>Create Form Element</h2>
+          <CreateForm />
+        </div>
+      )}
+      {/* Render the form component based on CRUD action */}
+      {crudAction === 'read' && (
+        <div>
+          <h2>Read Form Element</h2>
+          <ReadForm />
+        </div>
+      )}
+      {/* Render the form component based on CRUD action */}
+      {crudAction === 'update' && (
+        <div>
+          <h2>Update Form Element</h2>
+          <Update />
+        </div>
+      )}
+      {/* Render the form component based on CRUD action */}
+      {crudAction === 'delete' && (
+        <div>
+          <h2>Delete Form Element</h2>
+          <DeleteUser />
+        </div>
+      )}
     </div>
   );
 }

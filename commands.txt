@@ -1,0 +1,7 @@
+To Create a React Project: npx create-react-app <project-name>
+To Create a Backend for Project: npm init -y
+
+
+
+Front Requirements: npm install axios
+Backend Requirements: npm install express mongoose body-parser cors
