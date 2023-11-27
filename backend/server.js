@@ -26,7 +26,7 @@ db.once('open', () => {
 const userSchema = new mongoose.Schema({
   firstName: String,
   lastName: String,
-  email: String,
+  email: { type: String, unique: true },
   password: String,
   role: String,
   security: String,
@@ -44,9 +44,26 @@ const pieModel = mongoose.model('Pie343532',pieSchema);
 app.use(bodyParser.json());
 app.use(cors());
 
+// Set security headers
+app.use((req, res, next) => {
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-XSS-Protection', '1; mode=block');
+  res.setHeader('X-Frame-Options', 'deny');
+  res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
+  next();
+});
+
+// Implement rate limiting (example using 'express-rate-limit' middleware)
+const rateLimit = require('express-rate-limit');
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+});
+
 // Create Function
-app.post('/create', async (req, res) => {
-  const { firstName, lastName, email,password,role,security } = req.body;
+app.post('/create', limiter, async (req, res) => {
+  const { firstName, lastName, email, password, role, security } = req.body;
 
   try {
     // Create a new user document
@@ -54,7 +71,7 @@ app.post('/create', async (req, res) => {
       firstName,
       lastName,
       email,
-      password,
+      password, // Store the password as plain text (Not recommended)
       role,
       security,
     });
@@ -69,8 +86,9 @@ app.post('/create', async (req, res) => {
   }
 });
 
+
 // Read Function
-app.get('/read',async(req,res)=> {
+app.get('/read', limiter ,async(req,res)=> {
     try {
         // Fetch Data From Collection
         const data = await UserModel.find();
@@ -83,7 +101,7 @@ app.get('/read',async(req,res)=> {
 
 // Assuming you have already set up your app and UserModel as described above
 
-app.put('/update/:id', async (req, res) => {
+app.put('/update/:id', limiter , async (req, res) => {
   const { id } = req.params;
   const { firstName, lastName, email, password, role, security } = req.body;
 
@@ -107,7 +125,7 @@ app.put('/update/:id', async (req, res) => {
   }
 });
 
-app.post('/delete/:id', async (req, res) => {
+app.post('/delete/:id', limiter, async (req, res) => {
   const { id } = req.params;
   try {
     const deletedUser = await UserModel.findByIdAndDelete(id);
@@ -124,7 +142,7 @@ app.post('/delete/:id', async (req, res) => {
 });
 
 // Read Pie Data Function
-app.get('/pie',async(req,res)=> {
+app.get('/pie', limiter ,async(req,res)=> {
   try {
       // Fetch Data From Collection
       const data = await pieModel.find();
@@ -135,7 +153,7 @@ app.get('/pie',async(req,res)=> {
   }
 });
 
-app.get('/bar',async(req,res) => {
+app.get('/bar', limiter ,async(req,res) => {
   try{
     // Fetch Data From Collection
     const data = await pieModel.find();
@@ -143,6 +161,27 @@ app.get('/bar',async(req,res) => {
     } catch (error) {
     console.error('Error fetching data:', error); // Log error for debugging
     res.status(500).json({message: 'Failed to fetch data'})
+  }
+});
+
+app.post('/login', limiter, async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const user = await UserModel.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // This is not secure - comparing passwords in plaintext
+    if (user.password !== password) {
+      return res.status(401).json({ message: 'Invalid Password' });
+    }
+
+    res.status(200).json({ message: 'Login Success!' });
+  } catch (error) {
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 });
 

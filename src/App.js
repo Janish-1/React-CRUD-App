@@ -5,6 +5,8 @@ import UpdateUserForm from './components/update';
 import DeleteUser from './components/delete';
 import PieChart from './components/pie34';
 import GraphComponent from './components/graph';
+import Register from './components/register';
+import Login from './components/login';
 
 function App() {
   const [crudAction, setCRUDAction] = useState(''); // State to track CRUD actions
@@ -69,6 +71,18 @@ function App() {
           <GraphComponent />
         </div>
       )}
+    {crudAction === 'register' && (
+      <div>
+        <h2>Register Form</h2>
+        <Register />
+      </div>
+    )}
+    {crudAction === 'login' && (
+      <div>
+        <h2>Login Form</h2>
+        <Login />
+      </div>
+    )}
     </div>
   );
 }
