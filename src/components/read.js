@@ -22,7 +22,7 @@ function Read() {
       <ul>
         {data.map(item => (
           <li key={item._id}>
-            {item.firstName} - {item.lastName} - {item.email}
+            {item.firstName} - {item.lastName} - {item.email} - {item.password} - {item.role} - {item.security}
           </li>
         ))}
       </ul>

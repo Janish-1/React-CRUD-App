@@ -27,7 +27,10 @@ const userSchema = new mongoose.Schema({
   firstName: String,
   lastName: String,
   email: String,
-},{ collection: 'userdetails' });
+  password: String,
+  role: String,
+  security: String,
+},{ collection: 'Users' });
 
 const pieSchema = new mongoose.Schema({
   Name: String,
@@ -43,7 +46,7 @@ app.use(cors());
 
 // Create Function
 app.post('/create', async (req, res) => {
-  const { firstName, lastName, email } = req.body;
+  const { firstName, lastName, email,password,role,security } = req.body;
 
   try {
     // Create a new user document
@@ -51,6 +54,9 @@ app.post('/create', async (req, res) => {
       firstName,
       lastName,
       email,
+      password,
+      role,
+      security,
     });
 
     // Save the new user document to the 'user' collection
@@ -79,11 +85,11 @@ app.get('/read',async(req,res)=> {
 
 app.put('/update/:id', async (req, res) => {
   const { id } = req.params;
-  const { firstName, lastName, email } = req.body;
+  const { firstName, lastName, email, password, role, security } = req.body;
 
   try {
     const filter = { _id: id }; // Filter to find the user by id
-    const update = { firstName, lastName, email }; // Creates a new updated object
+    const update = { firstName, lastName, email, password, role, security }; // Creates a new updated object
 
     const updatedUser = await UserModel.findOneAndUpdate(
       filter,

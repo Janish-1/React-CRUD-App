@@ -1,31 +1,37 @@
 import React, { useState } from 'react';
-import axios from 'axios'; // Importing axios
+import axios from 'axios';
 
 function Create() {
-  // State to manage form data
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
     email: '',
+    password: '',
+    role: '',
+    security: '',
   });
 
-  // Function to handle form input changes
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  // Function to handle form submission
   const handleSubmit = async (event) => {
-    event.preventDefault(); // Prevents page reload on form submit
+    event.preventDefault();
 
     try {
-        // Sending Form Request to backend server.js with POST request via axios
-        const response = await axios.post('http://localhost:3001/create',formData);
-        console.log('Data sent to the backend:',response.data);
-        setFormData({firstName:'',lastName:'',email:''}); // Empties the form field after submit of form
+      const response = await axios.post('http://localhost:3001/create', formData);
+      console.log('Data sent to the backend:', response.data);
+      setFormData({
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+        role: '',
+        security: '',
+      });
     } catch (error) {
-        console.error('Error sending data: ',error);
+      console.error('Error sending data: ', error);
     }
   };
 
@@ -57,6 +63,36 @@ function Create() {
           type="email"
           name="email"
           value={formData.email}
+          onChange={handleInputChange}
+        />
+      </label>
+      <br />
+      <label>
+        Password:
+        <input
+          type="password"
+          name="password"
+          value={formData.password}
+          onChange={handleInputChange}
+        />
+      </label>
+      <br />
+      <label>
+        Role:
+        <input
+          type="text"
+          name="role"
+          value={formData.role}
+          onChange={handleInputChange}
+        />
+      </label>
+      <br />
+      <label>
+        Security:
+        <input
+          type="text"
+          name="security"
+          value={formData.security}
           onChange={handleInputChange}
         />
       </label>

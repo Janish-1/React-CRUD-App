@@ -7,6 +7,9 @@ const UpdateUserForm = () => {
     firstName: '',
     lastName: '',
     email: '',
+    password: '',
+    role: '',
+    security: '',
   });
 
   const handleUserIdChange = (event) => {
@@ -44,7 +47,7 @@ const UpdateUserForm = () => {
           name="userId"
           value={userId}
           onChange={handleUserIdChange}
-        /><br /><br />
+        /><br />
 
         <label htmlFor="firstName">First Name:</label>
         <input
@@ -53,7 +56,7 @@ const UpdateUserForm = () => {
           name="firstName"
           value={formData.firstName}
           onChange={handleInputChange}
-        /><br /><br />
+        /><br />
 
         <label htmlFor="lastName">Last Name:</label>
         <input
@@ -62,7 +65,7 @@ const UpdateUserForm = () => {
           name="lastName"
           value={formData.lastName}
           onChange={handleInputChange}
-        /><br /><br />
+        /><br />
 
         <label htmlFor="email">Email:</label>
         <input
@@ -71,7 +74,35 @@ const UpdateUserForm = () => {
           name="email"
           value={formData.email}
           onChange={handleInputChange}
-        /><br /><br />
+        /><br />
+
+        <label htmlFor="password">Password: </label>
+        <input 
+          type="password"
+          id="password"
+          name="password"
+          value={formData.password}
+          onChange={handleInputChange}
+        /><br />
+
+        <label htmlFor="Role">Role: </label>
+        <input 
+          type="text"
+          id="role"
+          name="role"
+          value={formData.role}
+          onChange={handleInputChange}
+        /><br />
+
+        <label htmlFor="Security">Security: </label>
+        <input 
+          type="text"
+          id="security"
+          name="security"
+          value={formData.security}
+          onChange={handleInputChange}
+        /><br />
+
 
         <button type="submit">Update User</button>
       </form>
